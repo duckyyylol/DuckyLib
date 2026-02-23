@@ -1,0 +1,1 @@
+Some Svelte code I didn't wanna keep writing

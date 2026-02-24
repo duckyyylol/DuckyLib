@@ -7,7 +7,7 @@
         justifyContent?: "center" | "flex-start" | "flex-end" | "space-between";
         alignItems?: "center" | "flex-start" | "flex-end" | "space-between";
         textAlign?: "center" | "left" | "right" | "justify";
-        gapEm?: number;
+        gapEm?: number | "auto";
         textWrap?: boolean;
         flexWrap?: boolean;
 
@@ -37,13 +37,14 @@ flex-direction: column;
 flex-wrap: ${flexWrap ? "wrap" : "nowrap"};
 justify-content: ${justifyContent};
 align-items: ${alignItems};
-gap: ${gapEm}em;
+gap: ${gapEm === "auto" ? "auto" : `${gapEm}em`};
 border-radius: ${borderRadiusPx}px;
 text-align: ${textAlign};
 margin-left: ${marginLeftPx === "auto" ? "auto" : `${marginLeftPx}px`};
 margin-right: ${marginRightPx === "auto" ? "auto" : `${marginRightPx}px`};
 margin-bottom: ${marginBottomPx === "auto" ? "auto" : `${marginBottomPx}px`};
 margin-top: ${marginTopPx === "auto" ? "auto" : `${marginTopPx}px`};
+background-color: ${backgroundColor};
 
 `}">
     {@render children()}

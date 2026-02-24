@@ -19,14 +19,15 @@
 			content = content.slice(0, --index);
 			setTimeout(deleteEffect, 300);
 		} else {
-			textIndex = (textIndex + 1) % texts[textIndex].length;
+			textIndex = (textIndex + 1) % (texts[textIndex])?.length || 0;
 			content = ''; // Clear text but keep zero-width space
 			setTimeout(type, 3000);
 		}
 	};
 
     const type = () => {
-		const currentString = texts[textIndex] || texts[0];
+		let currentString = texts[textIndex] || texts[0];
+        if(!currentString) currentString = texts[0]
 		const delay = currentString[index] === ' ' ? 160 : 300;
 
 		if (index < currentString.length) {
@@ -43,7 +44,6 @@
     
 </script>
 
-<!-- {type()} -->
 {content}
 
 <style>

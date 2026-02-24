@@ -2,6 +2,8 @@
     --border-sm: 4px;
     --border-md: 8px;
     --border-lg: 16px;
+
+    transition: all 0.5s;
 }
 
 .dark {
@@ -68,6 +70,7 @@
 --crust:#181926; */
 
 --accent: var(--peach);
+    transition: all 0.5s;
 }
 
 .light {
@@ -103,5 +106,6 @@
 --crust:#dce0e8;
 
 --accent: var(--rosewater);
+    transition: all 0.5s;
 }
 

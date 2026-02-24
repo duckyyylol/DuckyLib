@@ -44,6 +44,7 @@ margin-left: ${marginLeftPx === "auto" ? "auto" : `${marginLeftPx}px`};
 margin-right: ${marginRightPx === "auto" ? "auto" : `${marginRightPx}px`};
 margin-bottom: ${marginBottomPx === "auto" ? "auto" : `${marginBottomPx}px`};
 margin-top: ${marginTopPx === "auto" ? "auto" : `${marginTopPx}px`};
+background-color: ${backgroundColor};
 `}">
     {@render children()}
 </div>

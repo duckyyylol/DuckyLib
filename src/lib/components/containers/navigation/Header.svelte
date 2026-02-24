@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
     import Row from "../Row.svelte";
-    import { getTheme } from "../../../index.ts";
+    import { getTheme, getUserData } from "../../../index.ts";
     import ThemeButton from "$lib/components/buttons/ThemeButton.svelte";
     import { page } from "$app/state";
     import { MediaQuery } from "svelte/reactivity";
@@ -10,6 +10,7 @@
     import LoginButton from "$lib/components/buttons/LoginButton.svelte";
     import UserToast from "$lib/components/buttons/UserToast.svelte";
     import { PUBLIC_MOBILE_SIZE_PX, PUBLIC_TABLET_SIZE_PX } from "$env/static/public";
+    import SearchBar, { type QueryMapKeys, type SearchResult } from "./SearchBar.svelte";
 
     interface HeaderNavigation {
         label: string;
@@ -26,7 +27,16 @@
         withThemeButton?: boolean;
         withIcons?: boolean;
 
-        user?: Auth.User | null;
+        withSearchBar?: boolean;
+        onsearch?: ((query: string) => Promise<void>) | null;
+        onresult?: ((result: SearchResult) => Promise<void>) | null;
+        searchOptions?: SearchResult[];
+        searchQueryUrl?: string;
+        searchQueryObjMap?: {[key in QueryMapKeys]: string | null};
+        searchQueryDataKey?: string;
+
+        defaultNav?: boolean;
+
         authFeatures?: boolean;
 
         nav?: HeaderNavigation[];
@@ -41,12 +51,22 @@
 
     let {
         children = null,
+
         withThemeButton = true,
         withIcons = true,
+        defaultNav = true,
+
+        withSearchBar = false,
+        onsearch = null,
+        onresult = null,
+        searchOptions = [],
+        searchQueryDataKey,
+        searchQueryObjMap,
+        searchQueryUrl,
+
         emoji = "🦆",
         label = "",
 
-        user = null,
         authFeatures = false,
 
         nav = [],
@@ -56,7 +76,11 @@
         return nav;
     }
 
-    nav = [
+    function getDefaultNav(): boolean {
+        return defaultNav;
+    }
+
+    if(getDefaultNav()) nav = [
         {
             label: "Home",
             pathname: "/",
@@ -64,6 +88,14 @@
         },
         ...getNav(),
     ];
+
+    function authFeaturesEnabled(): boolean {
+        return authFeatures;
+    }
+
+    let user: Auth.User | null = $state(null);
+
+    if(authFeaturesEnabled()) user = getUserData();
 
     const mobileQuery = new MediaQuery(`max-width: ${PUBLIC_MOBILE_SIZE_PX}px`);
     const tabletQuery = new MediaQuery(`max-width: ${PUBLIC_TABLET_SIZE_PX}px`);
@@ -83,6 +115,7 @@
                 <Row widthPx="fit" gapEm={mobileQuery.current ? 1 : 1.33}>
                     {#each nav as n}
                         <a
+                            target="{n.pathname.startsWith("/") ? "_self" : "_blank"}"
                             href={n.pathname}
                             class="font-semibold{page.url.pathname ===
                             n.pathname
@@ -121,6 +154,9 @@
             </Row>
         {/if}
         <Row widthPx="fit">
+            {#if withSearchBar && onresult !== null}
+            <SearchBar {onsearch} {onresult} options={searchOptions} queryDataKey={searchQueryDataKey} queryObjMap={searchQueryObjMap} queryUrl={searchQueryUrl}/>
+            {/if}
             {#if authFeatures}
                 <Row widthPx="fit">
 

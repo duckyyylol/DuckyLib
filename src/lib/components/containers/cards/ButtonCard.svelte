@@ -1,27 +1,27 @@
 <script lang="ts">
-    import type { Snippet } from "svelte";
     import Column from "../Column.svelte";
     import Symbol from "$lib/components/text/Symbol.svelte";
     import Row from "../Row.svelte";
     import { browser } from "$app/environment";
-    import { goto } from "$app/navigation";
+    import Text from "$lib/components/text/Text.svelte";
 
-    interface LinkCardButton {
+    interface ButtonCardButton {
         text: string;
-        href: string;
         type: "success" | "danger" | "primary" | "secondary";
+        href?: string;
+        onclick?: ((e: MouseEvent) => void) | null;
     }
 
-    interface LinkCardProps {
+    interface ButtonCardProps {
         text: string;
         title?: string;
 
-        buttons: LinkCardButton[];
+        buttons: ButtonCardButton[];
 
         symbol?: string | null;
     }
 
-    let { text, symbol = null, title = "", buttons }: LinkCardProps = $props();
+    let { text, symbol = null, title = "", buttons }: ButtonCardProps = $props();
 </script>
 
 <div>
@@ -37,9 +37,13 @@
         <p class="font-semibold">{text}</p>
         <Row gapEm={0.33} justifyContent="flex-start">
             {#each buttons as button}
-                <button class={button.type} onclick={() => {
-                    if(browser) goto(button.href)
-                }}>{button.text}</button>
+                <button class={button.type} data-icon="{button.href && !button.onclick}" onclick={async (e) => {
+                    if(button.onclick) {
+                        await button.onclick(e)
+                    } else {
+                        if(browser && button.href) window.open(button.href, "_blank")
+                    }
+                }}>{#if button.href && !button.onclick}<Row heightPx="fit" gapEm={0.66}><Text inheritColor={true} weight="bolder">{button.text}</Text><Symbol name="open_in_new" sizePx={18} inheritColor={true} /></Row>{:else}<Text inheritColor={true} weight="bolder">{button.text}</Text>{/if}</button>
             {/each}
         </Row>
     </Column>
@@ -110,6 +114,10 @@
 
         font-size: 0.7em;
         font-weight: 700;
+    }
+
+    button[data-icon="true"] {
+        padding: 0.33em 0.66em;
     }
 
     button:hover {

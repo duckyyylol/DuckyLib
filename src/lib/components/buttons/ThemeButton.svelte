@@ -33,6 +33,10 @@
         if(browser) {
             themes.filter(t => t !== (theme === "system" ? systemMode : theme)).forEach(t => document.body.classList.remove(t))
             document.body.classList.add(theme === "system" ? systemMode : theme)
+
+            window.addEventListener("theme", (e: any) => {
+                theme = e.detail.theme;
+            })
         }
     })
 
@@ -80,7 +84,7 @@
         outline: none;
         border: none;
 
-        color: var(--text);
+        /* color: var(--text); */
     }
     
     .icon_only {
@@ -104,23 +108,38 @@
     .with_text {
         padding: 0.2em 0.66em;
         border-radius: var(--border-md);
-        background-color: var(--overlay-2);
-        color: var(--base);
+        background-color: var(--crust);
+        color: var(--text);
         gap: 0.66em;
         
         font-size: 1em;
+        border: 2px solid var(--mantle);
+    }
+
+    .btn-dark:not(.icon_only)[data-theme="system"] {
+        color: var(--teal);
+        & {
+            p {
+                color: var(--text);
+            }
+        }
     }
 
     .btn-dark:not(.icon_only):not([data-theme="system"]) {
         color: var(--yellow);
         & {
             p {
-                color: var(--base);
+                color: var(--text);
             }
         }
     }
 
     .btn-light:not(.icon_only) {
-        color: var(--surface-0);
+        color: var(--yellow);
+        & {
+            p {
+                color: var(--text);
+            }
+        }
     }
 </style>

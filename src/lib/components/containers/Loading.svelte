@@ -9,6 +9,8 @@
     let loaded = $state(false);
 
     onMount(() => {
+        if(!loaded) window.scrollTo({top: 0, behavior: "instant"})
+
         window.onscroll = (e) => {
             if(!loaded) {
                 e.preventDefault();
@@ -21,6 +23,8 @@
             
         }, 7e2)
     })
+
+    let { children } = $props();
 
 </script>
 
@@ -36,6 +40,9 @@
     </Column>
 </Column>
 </div>
+
+{:else}
+{@render children()}
 {/if}
 
 <style>
@@ -57,6 +64,6 @@
         background-color: var(--base);
         color: var(--text);
 
-        z-index: 2000;
+        z-index: 5000;
     }
 </style>

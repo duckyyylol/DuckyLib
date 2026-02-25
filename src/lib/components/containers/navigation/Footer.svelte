@@ -100,15 +100,16 @@
     @import url("../../../styles/globals.css");
 
     div {
-        /* position: absolute; */
-        /* left: 5%; */
-        /* bottom: 0.33em; */
+        position: sticky;
+        /* left: 0;
+        bottom: 0; */
 
         box-sizing: border-box;
         padding: 0 0.66em;
         margin-top: 3em;
         /* margin-left: auto;
         margin-right: auto; */
+        margin-bottom: 0.66em;
 
         width: 90%;
         height: 2.33em;

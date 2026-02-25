@@ -15,13 +15,14 @@
 
     let systemMode = browser ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light" : "dark";
 
-    let theme = $state(getTheme());
+    let theme = $state("dark");
 
     let w = $state(0)
     let h = $state(0);
 
     
     onMount(() => {
+        theme = getTheme();
         if(browser) {
             w = window.outerWidth
             h = window.outerHeight

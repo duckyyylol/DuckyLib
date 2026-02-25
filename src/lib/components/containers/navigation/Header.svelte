@@ -12,7 +12,7 @@
     import { PUBLIC_MOBILE_SIZE_PX, PUBLIC_TABLET_SIZE_PX } from "$env/static/public";
     import SearchBar, { type QueryMapKeys, type SearchResult } from "./SearchBar.svelte";
 
-    interface HeaderNavigation {
+    export interface HeaderNavigation {
         label: string;
         pathname: string;
         symbol: string;

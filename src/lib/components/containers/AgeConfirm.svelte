@@ -4,7 +4,7 @@
     import Column from "./Column.svelte";
     import Text from "../text/Text.svelte"
     import Row from "./Row.svelte";
-    import { onMount } from "svelte";
+    import { onMount, type Snippet } from "svelte";
     import Button from "../buttons/Button.svelte";
     import { browser } from "$app/environment";
     import Symbol from "../text/Symbol.svelte";
@@ -13,9 +13,10 @@
     interface AgeConfirmProps {
         age?: number;
         references?: ("substances" | "sexual" | "death" | "sh")[];
+        onDenial: (e: MouseEvent) => Promise<void>;
     }
 
-    let {age = 18, references = []}: AgeConfirmProps = $props();
+    let {age = 18, references = [], onDenial}: AgeConfirmProps = $props();
 
     const referenceMap = {
         "substances": "Alcohol, Drugs, and Substance Abuse",
@@ -68,7 +69,7 @@
         <Text weight="normal" classList={["italic"]}>{loaded ? `You must be at least ${age} years old to access this website.` : ""}</Text>
         <Row>
             <Button label="I am {age} or older" size="large" type="success" onclick={(e) => {setAgeVerified(true)}} />
-            <Button label="I am younger than {age}" size="large" type="danger" onclick={(e) => {setAgeVerified(false)}} />
+            <Button label="I am younger than {age}" size="large" type="danger" onclick={(e) => {setAgeVerified(false); onDenial(e);}} />
         </Row>
         {/if}
     </Column>
@@ -85,7 +86,7 @@
         left: 0;
 
         width: 100%;
-        height: 110%; 
+        height: 120%; 
 
 
         padding: 0.33em;
@@ -95,6 +96,6 @@
         background-color: var(--base);
         color: var(--text);
 
-        z-index: 1000;
+        z-index: 4000;
     }
 </style>

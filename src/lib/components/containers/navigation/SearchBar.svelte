@@ -294,6 +294,7 @@
                     showBar = false;
                     showInput = false;
                     searching = false;
+                    closeResults();
                 }
             }}
         >
@@ -357,7 +358,7 @@
 </div>
 
 <style>
-    @import url("$lib/styles/globals.css");
+    @import url("../../../styles/globals.css");
 
     @keyframes input_focus {
         0% {
